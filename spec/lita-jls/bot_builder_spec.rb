@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'lita-jls/bot_builder'
+require 'lita-jarvis/bot_builder'
 require 'stud/temporary'
 require 'semverly'
 
-describe LitaJLS::BotBuilder do
-  subject { LitaJLS::BotBuilder.new(File.join(File.dirname(__FILE__), '..', '..')) }
+describe LitaJarvis::BotBuilder do
+  subject { LitaJarvis::BotBuilder.new(File.join(File.dirname(__FILE__), '..', '..')) }
   let(:config) { { :ruby_version => 'jruby-1.7.16' } }
   let(:logstash_gem_fixture) { File.join(File.dirname(__FILE__), '..', 'fixtures') }
   let(:bad_project) { File.join(File.dirname(__FILE__), '..', 'fixtures', 'bad_project') }
@@ -16,7 +16,7 @@ describe LitaJLS::BotBuilder do
   
   it 'returns false if its not a gem' do
     Stud::Temporary.directory do |tmp_dir|
-      bot = LitaJLS::BotBuilder.new(tmp_dir)
+      bot = LitaJarvis::BotBuilder.new(tmp_dir)
       expect(bot.is_gem?).to eq(false)
     end
   end
@@ -26,7 +26,7 @@ describe LitaJLS::BotBuilder do
   end
 
   it 'doesnt allow to publish the logstash gem' do
-    bot = LitaJLS::BotBuilder.new(logstash_gem_fixture)
+    bot = LitaJarvis::BotBuilder.new(logstash_gem_fixture)
     expect(bot.publishable?).to eq(false)
   end
 
@@ -50,25 +50,25 @@ describe LitaJLS::BotBuilder do
     # the problem with that is Gem::Specification will execute the ruby file
     # it require the version rb in the current 
     it 'read the version.rb if the project have one' do
-      bot = LitaJLS::BotBuilder.new(project_with_version_file)
+      bot = LitaJarvis::BotBuilder.new(project_with_version_file)
       expect(bot.local_version.to_s).to eq('0.0.2')
     end
   end
 
   describe "#execute_command" do
     it 'return a failing status if the command cannot be run' do
-      bot = LitaJLS::BotBuilder.new(bad_project)
+      bot = LitaJarvis::BotBuilder.new(bad_project)
       expect(bot.run_successfully?(bot.execute_command("sh -c 'exit 1'"))).to eq(false)
     end
 
     it 'return sucessful status if the command run correctly' do
-      bot = LitaJLS::BotBuilder.new('../../')
+      bot = LitaJarvis::BotBuilder.new('../../')
       expect(bot.run_successfully?(bot.execute_command('bundle install'))).to eq(true)
     end
   end
 
   describe '#execute_command_with_ruby' do
-    let(:bot) { LitaJLS::BotBuilder.new(bad_project, config) }
+    let(:bot) { LitaJarvis::BotBuilder.new(bad_project, config) }
     it 'add the rvm prefix if local machine is running rvm' do
       allow(bot).to receive(:using_rvm?).and_return(true)
 
@@ -87,7 +87,7 @@ describe LitaJLS::BotBuilder do
       allow(bot).to receive(:using_rvm?).and_return(false)
       allow(bot).to receive(:using_rbenv?).and_return(true)
 
-      expect{ bot.execute_command_with_ruby("ls -l") }.to raise_error(LitaJLS::BotBuilder::ConfigurationError)
+      expect{ bot.execute_command_with_ruby("ls -l") }.to raise_error(LitaJarvis::BotBuilder::ConfigurationError)
     end
   end
 
@@ -99,7 +99,7 @@ describe LitaJLS::BotBuilder do
         'bundle exec rspec']
     }
     let(:bot) do
-      LitaJLS::BotBuilder.new(test_opsbots_path, config.merge({ :tasks_order => tasks_order }))
+      LitaJarvis::BotBuilder.new(test_opsbots_path, config.merge({ :tasks_order => tasks_order }))
     end
 
     before do
@@ -138,7 +138,7 @@ describe LitaJLS::BotBuilder do
 
     it 'doesnt build if the project doesnt have a gemspec' do
       Stud::Temporary.directory do |tmp_dir|
-        bot = LitaJLS::BotBuilder.new(tmp_dir, config.merge({ :tasks_order => ['bundle install',
+        bot = LitaJarvis::BotBuilder.new(tmp_dir, config.merge({ :tasks_order => ['bundle install',
                                                                                'bundle exec rake vendor',
                                                                                'bundle exec rspec'] }))
 

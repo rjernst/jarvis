@@ -1,9 +1,9 @@
-require 'lita-jls/util'
+require 'lita-jarvis/util'
 
-module LitaJLS
+module LitaJarvis
   class Repository
-    include LitaJLS::Util
-    include LitaJLS::Logger
+    include LitaJarvis::Util
+    include LitaJarvis::Logger
 
     REMOTE = 'origin'
 

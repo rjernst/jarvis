@@ -1,11 +1,11 @@
-require 'lita-jls/util'
+require 'lita-jarvis/util'
 require 'rubygems'
 require 'open3'
 require 'gems'
 require 'semverly'
 require 'json'
 
-module LitaJLS
+module LitaJarvis
   module Reporter
     class HipChat
       def initialize(build_messages)
@@ -33,7 +33,7 @@ module LitaJLS
   end
 
   class BotBuilder
-    include LitaJLS::Logger
+    include LitaJarvis::Logger
 
     class ConfigurationError <  StandardError; end
 

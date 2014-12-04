@@ -1,4 +1,4 @@
-module LitaJLS
+module LitaJarvis
   class GithubUrlParser
     attr_reader :user, :project, :pr, :url
 

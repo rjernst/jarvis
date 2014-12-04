@@ -1,24 +1,5 @@
-# lita-jls
+# J.A.R.V.I.S.
 
-TODO: Add a description of the plugin.
+This is a [lita](http://lita.io) plugin that we use at Elasticsearch for automating lots of tasks.
 
-## Installation
-
-Add lita-jls to your Lita instance's Gemfile:
-
-``` ruby
-gem "lita-jls"
-```
-
-
-## Configuration
-
-TODO: Describe any configuration attributes the plugin exposes.
-
-## Usage
-
-TODO: Describe the plugin's features and how to use them.
-
-## License
-
-[MIT](http://opensource.org/licenses/MIT)
+TODO(sissel): Document how to install/setup/test/etc.

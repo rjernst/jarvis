@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'lita-jls/github_url_parser'
+require 'lita-jarvis/github_url_parser'
 
-describe LitaJLS::GithubUrlParser do
-  subject { LitaJLS::GithubUrlParser }
+describe LitaJarvis::GithubUrlParser do
+  subject { LitaJarvis::GithubUrlParser }
 
   context 'when the url is a repository' do
     let(:url) { 'https://github.com/elasticsearch/logstash' }

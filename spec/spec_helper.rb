@@ -2,7 +2,7 @@ require "simplecov"
 require "coveralls"
 require "vcr"
 require "lita/rspec"
-require "lita-jls"
+require "lita-jarvis"
 
 Lita.version_3_compatibility_mode = false
 

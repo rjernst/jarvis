@@ -3,7 +3,7 @@ require "insist"
 require "stud/temporary"
 require "fileutils"
 
-describe Lita::Handlers::Jls, :lita_handler => true do
+describe Lita::Handlers::Jarvis, :lita_handler => true do
   it do
     messages = [
       "merge https://github.com/foo/bar/pull/123 bar",
@@ -83,12 +83,12 @@ end
 
 module Fixture
   class Util
-    include LitaJLS::Util
+    include LitaJarvis::Util
     public(:gitdir, :clone_at, :github_issue_label)
 
     def workdir(*args)
       return @workdir if @workdir
-      @workdir = Stud::Temporary.directory("lita-jls-testing")
+      @workdir = Stud::Temporary.directory("lita-jarvis-testing")
     end
   end
 end
@@ -102,7 +102,7 @@ end
   #end
 #end
 
-describe LitaJLS::Util do
+describe LitaJarvis::Util do
   subject do
     Fixture::Util.new
   end
@@ -124,10 +124,10 @@ describe LitaJLS::Util do
 
   context "#clone_at" do
     let(:url) { 'https://github.com/jordansissel/this-is-only-a-test' }
-    let(:repo) { Stud::Temporary.directory('lita-jls-testing') }
+    let(:repo) { Stud::Temporary.directory('lita-jarvis-testing') }
 
     before do
-      insist { repo } =~ /lita-jls-testing/ # just in case.
+      insist { repo } =~ /lita-jarvis-testing/ # just in case.
     end
 
     after do

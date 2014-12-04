@@ -3,10 +3,10 @@ require "tmpdir"
 require "fileutils"
 require "insist"
 require "uri"
-require "lita-jls/bot_builder"
-require "lita-jls/repository"
-require "lita-jls/github_url_parser"
-require "lita-jls/util"
+require "lita-jarvis/bot_builder"
+require "lita-jarvis/repository"
+require "lita-jarvis/github_url_parser"
+require "lita-jarvis/util"
 
 # TODO(sissel): This code needs some suuuper serious refactoring and testing improvements.
 # TODO(sissel): Remove any usage of Rugged. This library requires compile-time
@@ -14,8 +14,8 @@ require "lita-jls/util"
 
 module Lita
   module Handlers
-    class Jls < Handler
-      include LitaJLS::Util
+    class Jarvis < Handler
+      include LitaJarvis::Util
 
       route /^merge(?<dry>\?)? (?<pr_url>[^ ]+) (?<branchspec>.*)$/, :merge,
         :command => true,
@@ -52,18 +52,18 @@ module Lita
 
         logger.info('publish', :url => git_url)
 
-        github_parser = LitaJLS::GithubUrlParser.parse(git_url, :link => :repository)
+        github_parser = LitaJarvis::GithubUrlParser.parse(git_url, :link => :repository)
         github_parser.validate!
 
-        repository = LitaJLS::Repository.new(github_parser)
+        repository = LitaJarvis::Repository.new(github_parser)
         repository.clone
         repository.switch_branch('master')
 
-        builder = LitaJLS::BotBuilder.new(repository.git_path, { :ruby_version => RUBY_VERSION })
+        builder = LitaJarvis::BotBuilder.new(repository.git_path, { :ruby_version => RUBY_VERSION })
 
         msg.reply("publishing (allthethings) for project: #{builder.project_name} branch: master")
 
-        reporter = LitaJLS::Reporter::HipChat.new(builder.build)
+        reporter = LitaJarvis::Reporter::HipChat.new(builder.build)
         reporter.format(msg)
       rescue => e
         msg.reply("(stare) Error: #{e.inspect}")
@@ -176,7 +176,7 @@ module Lita
 
         begin
           dir = workdir("gitbase")
-          insist { dir } =~ /\/lita-jls/ # Just in case, before we go purging things...
+          insist { dir } =~ /\/lita-jarvis/ # Just in case, before we go purging things...
           FileUtils.rm_r(dir) if File.directory?(dir)
           msg.reply("Git: (tableflip) (success)")
         rescue => e
@@ -184,8 +184,8 @@ module Lita
           raise e
         end
       end
-    end # class Jls
+    end # class Jarvis
 
-    Lita.register_handler(Jls)
+    Lita.register_handler(Jarvis)
   end
 end

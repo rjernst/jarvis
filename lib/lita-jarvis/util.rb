@@ -6,7 +6,7 @@ require "json" # for cla check
 #
 # TODO(sissel): This code needs some suuuper serious refactoring and testing improvements.
 
-module LitaJLS 
+module LitaJarvis 
   module Logger
     def logger
       return @logger if @logger
@@ -124,7 +124,7 @@ module LitaJLS
 
     def workdir(path=nil)
       return File.join(@workdir, path) if @workdir
-      @workdir = File.join(Dir.tmpdir, "lita-jls")
+      @workdir = File.join(Dir.tmpdir, "lita-jarvis")
       Dir.mkdir(@workdir) unless File.directory?(@workdir)
       if path.nil?
         @workdir
@@ -247,4 +247,4 @@ module LitaJLS
     end
   end # module Util
 
-end # module LitaJLS
+end # module LitaJarvis

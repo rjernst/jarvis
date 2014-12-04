@@ -1,5 +1,5 @@
 Gem::Specification.new do |spec|
-  spec.name          = "lita-jls"
+  spec.name          = "lita-elasticsearch-jarvis"
   spec.version       = "0.0.10"
   spec.authors       = ["Jordan Sissel"]
   spec.email         = ["jls@semicomplete.com"]
